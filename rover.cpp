@@ -1,4 +1,4 @@
-// This is a .c file for the model: rover
+// This is a .cpp file for the model: rover
 
 #include "rover.h"
 
