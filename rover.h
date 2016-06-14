@@ -7,15 +7,15 @@
 // Vertices: 30858
 // Materials: 10
 
-const int roverVertices;
-const float roverPositions[92574];
-const float roverTexels[61716];
-const float roverNormals[92574];
+extern int roverVertices;
+extern float roverPositions[92574];
+extern float roverTexels[61716];
+extern float roverNormals[92574];
 
-const int roverMaterials;
-const int roverFirsts[10];
-const int roverCounts[10];
+extern int roverMaterials;
+extern int roverFirsts[10];
+extern int roverCounts[10];
 
-const float roverDiffuses[10][3];
-const float roverSpeculars[10][3];
+extern float roverDiffuses[10][3];
+extern float roverSpeculars[10][3];
 

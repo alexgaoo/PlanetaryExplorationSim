@@ -1,10 +1,9 @@
 // This is a .cpp file for the model: rover
-
 #include "rover.h"
 
-const int roverVertices = 30858;
+int roverVertices = 30858;
 
-const float roverPositions[92574] = 
+float roverPositions[92574] =
 {
 -17.1369, 124.256, 14.8806, 
 -17.1369, 122.676, 14.8806, 
@@ -30866,7 +30865,7 @@ const float roverPositions[92574] =
 -3.68327, 56.8239, 25.7778, 
 };
 
-const float roverTexels[61716] = 
+float roverTexels[61716] =
 {
 0.25, 2.05687, 
 0.25, 1.97135, 
@@ -61728,7 +61727,7 @@ const float roverTexels[61716] =
 0.441978, 0.679762, 
 };
 
-const float roverNormals[92574] = 
+float roverNormals[92574] =
 {
 3e-06, -0, 1, 
 0.175878, -0, 1.56092, 
@@ -92590,9 +92589,9 @@ const float roverNormals[92574] =
 -3e-06, -0.392604, 2.56875, 
 };
 
-const int roverMaterials = 10;
+int roverMaterials = 10;
 
-const int roverFirsts[10] = 
+int roverFirsts[10] =
 {
 0,
 23577,
@@ -92606,7 +92605,7 @@ const int roverFirsts[10] =
 30858,
 };
 
-const int roverCounts[10] = 
+int roverCounts[10] =
 {
 23577,
 582,
@@ -92620,7 +92619,7 @@ const int roverCounts[10] =
 0,
 };
 
-const float roverDiffuses[10][3] = 
+float roverDiffuses[10][3] =
 {
 0.9, 0.9, 0.9, 
 0.1, 0, 0.6, 
@@ -92634,7 +92633,7 @@ const float roverDiffuses[10][3] =
 0.6, 0.6, 0.6, 
 };
 
-const float roverSpeculars[10][3] = 
+float roverSpeculars[10][3] =
 {
 0.9, 0.9, 0.9, 
 0.9, 0.9, 0.9, 
