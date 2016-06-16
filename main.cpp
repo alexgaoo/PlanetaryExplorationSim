@@ -6,9 +6,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include <sys/time.h>
 
 #include <glm/glm.hpp>
+#include "glui.h"
+//#include "terrain.h"
+#include "rover.h"
+
 
 //globals
 static int g_Width = 600;
@@ -16,8 +21,54 @@ static int g_Height = 600;
 static GLfloat g_nearPlane = 1;
 static GLfloat g_farPlane = 1000;
 
+int window_id;
 
-float angle = 0.0f;
+
+float angle = 0.0;
+float lx = 0.0, lz = -1.0;
+float x = 200.0, z = 200.0;
+
+
+//keyboard
+void processNormalKeys(unsigned char key, int x, int y)
+{
+    if (key == 27)
+        exit(0);
+}
+
+void processSpecialKeys(int key, int xx, int yy)
+{
+    float fraction = 0.5;
+    
+    switch (key)
+    {
+        case GLUT_KEY_LEFT:
+            angle -= 0.01;
+            lx = sin(angle);
+            lz = -cos(angle);
+            break;
+        case GLUT_KEY_RIGHT:
+            angle += 0.01f;
+            lx = sin(angle);
+            lz = -cos(angle);
+            break;
+        case GLUT_KEY_UP:
+            x += lx * fraction;
+            z += lz * fraction;
+            break;
+        case GLUT_KEY_DOWN:
+            x -= lx * fraction;
+            z -= lz * fraction;
+            break;
+    }
+}
+
+void myGlutIdle()
+{
+    if(glutGetWindow() != window_id)
+        glutSetWindow(window_id);
+    glutPostRedisplay();
+}
 
 void renderScene()
 {
@@ -27,20 +78,31 @@ void renderScene()
     glLoadIdentity();
     gluLookAt
     (
-        0.0f, 0.0f, 10.0f,
-        0.0f, 0.0f, 0.0f,
-        0.f, 1.0f, 0.0f
+        x, 600.0, z,
+        x + lx, 1.0, z + lz,
+        0.0, 1.0, 0.0
     );
     
-    glRotatef(angle, 0.0f, 1.0f, 0.0f);
+   /* //Draw Ground *later going to be terrain*
     
-    glBegin(GL_TRIANGLES);
-    glVertex3f(-2.0, -2.0, 0.0);
-    glVertex3f(2.0, 0.0, 0.0);
-    glVertex3f(0.0, 2.0, 0.0);
+    glBegin(GL_QUADS);
+        glVertex3f(-100.0, 0.0, -100);
+        glVertex3f(-100.0, 0.0, 100);
+        glVertex3f(100.0, 0.0, -100);
+        glVertex3f(100.0, 0.0, -100);
     glEnd();
+
+  
     
-    angle += 0.1f;
+    terrainLoadFromImage("heightmap.tga", 1);
+    terrainScale(-10, 30);
+    int myDisplayList = terrainCreateDL(0, 0, 0);
+    glCallList(myDisplayList);*/
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, roverPositions);
+    glDrawArrays(GL_TRIANGLES, 0, roverVertices);
+    glDisableClientState(GL_VERTEX_ARRAY);
     
     glutSwapBuffers();
 }
@@ -68,15 +130,25 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
     glutInitWindowPosition(1, 1);
     glutInitWindowSize(g_Width, g_Height);
-    glutCreateWindow("Simulation");
+    window_id = glutCreateWindow("Simulation");
     
     //register callbacks
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changesize);
-    
-    //idle
     glutIdleFunc(renderScene);
+    glutKeyboardFunc(processNormalKeys);
+    glutSpecialFunc(processSpecialKeys);
     
+    //GLUI
+    GLUI *glui = GLUI_Master.create_glui( "GLUI");
+    glui->add_statictext("Simulation Options");
+    glui->add_column(1);
+    
+    
+    
+    glui->set_main_gfx_window(window_id);
+    GLUI_Master.set_glutIdleFunc(myGlutIdle);
+
     //enter GLUT event processing cycle
     glutMainLoop();
     
